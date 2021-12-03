@@ -45,4 +45,4 @@ This project was developed with the following technologies:
 
 ## References
 https://nachovz.github.io/devtools-coverage-css-generator/
-< /br>https://marian-caikovski.medium.com/remove-unused-css-a6c4c7f25689
+</br>https://marian-caikovski.medium.com/remove-unused-css-a6c4c7f25689
