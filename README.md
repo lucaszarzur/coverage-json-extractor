@@ -29,9 +29,9 @@ This project was developed with the following technologies:
 2. Clone this repository into the previously created folder;
 3. Put your json coverage file inside the folder "fromFileFolder"
 4. Modify variable "jsonFileName" to your json coverage file name
-5. Configure "global variables" to what you want
-6. What types of files are available to export in the topic "used code"
-7. What types of files are available to export in the topic "unused code"
+5. Configure "global variables" to what you want:
+5.1. What types of files are available to export in the topic "used code"
+5.2. What types of files are available to export in the topic "unused code"
 
 
 ## Remarks & Tips :ok_hand:
@@ -45,4 +45,4 @@ This project was developed with the following technologies:
 
 ## References
 https://nachovz.github.io/devtools-coverage-css-generator/
-https://marian-caikovski.medium.com/remove-unused-css-a6c4c7f25689
+< /br>https://marian-caikovski.medium.com/remove-unused-css-a6c4c7f25689
