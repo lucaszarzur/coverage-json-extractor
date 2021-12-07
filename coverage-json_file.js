@@ -36,6 +36,9 @@ const coverage = require(jsonPathFile);
 let usedCode = ''
 let unusedCode = ''
 for (cssOrJsFile of coverage) {
+    // reset variables
+    unusedCode = ''
+
     let fileUrl = getFileNameFromUrl(cssOrJsFile.url);
     let firstEntryUnusedCode = true;
     //console.log(cssOrJsFile)
@@ -47,29 +50,35 @@ for (cssOrJsFile of coverage) {
 
     usedCode += identifyUsedCodeFileOnExportedFile(cssOrJsFile, isCssUsedCodeExportEnabled(), isJsUsedCodeExportEnabled());
     unusedCode += identifyUnusedCodeFileOnExportedFile(cssOrJsFile, isCssUnusedCodeExportEnabled(), isJsUnusedCodeExportEnabled());
-    for (range of ranges) {
-        //console.log(range)
-    
-        let rangeCode = text.substring(range.start, range.end);
-        //console.log("\nrangeCode to add/remove --> ", rangeCode)
+    if (ranges.length !== 0) {
+        for (range of ranges) {
+            //console.log(range)
         
-        // save usedCode
-        if (isCssFile(cssOrJsFile) && isCssUsedCodeExportEnabled()) {
-            usedCode += rangeCode
-        }
-        if (isJsFile(cssOrJsFile) && isJsUsedCodeExportEnabled()) {
-            usedCode += rangeCode
-        }
+            let rangeCode = text.substring(range.start, range.end);
+            //console.log("\nrangeCode to add/remove --> ", rangeCode)
+            
+            // save usedCode
+            if (isCssFile(cssOrJsFile) && isCssUsedCodeExportEnabled()) {
+                usedCode += rangeCode
+            }
+            if (isJsFile(cssOrJsFile) && isJsUsedCodeExportEnabled()) {
+                usedCode += rangeCode
+            }
 
-        if (firstEntryUnusedCode == true) {
-            unusedCode += text.replace(rangeCode, '');
-            firstEntryUnusedCode = false;
-        } else {
-            unusedCode = unusedCode.replace(rangeCode, '');
+            // create unusedCode text
+            if (firstEntryUnusedCode == true) {
+                unusedCode += text.replace(rangeCode, '');
+                firstEntryUnusedCode = false;
+            } else {
+                unusedCode = unusedCode.replace(rangeCode, '');
+            }
         }
+    } else {
+        //console.log("The file " + fileUrl + " is entire 'unusedCode'!")
+        unusedCode = text; // if there is no range, so the entire file is "unusedCode"
     }
     
-    // save CSS or JS file (separated files)
+    // save CSS or JS file (separated files) - WORKS ONLY FOR UNUSED CODE
     if (isJsFile(cssOrJsFile) && isJsUnusedCodeExportEnabled()) {
         fs.writeFileSync(jsSavedFilesFolder + fileUrl + "_unusedCode.js", unusedCode);
     }
