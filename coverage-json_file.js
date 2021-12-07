@@ -33,7 +33,8 @@ const fs = require('fs')
 const coverage = require(jsonPathFile);
 //console.log(coverage)
 
-let usedCode = ''
+let cssUsedCode = ''
+let jsUsedCode = ''
 let unusedCode = ''
 for (cssOrJsFile of coverage) {
     // reset variables
@@ -48,7 +49,8 @@ for (cssOrJsFile of coverage) {
     //console.log(ranges);
     //console.log(text);
 
-    usedCode += identifyUsedCodeFileOnExportedFile(cssOrJsFile, isCssUsedCodeExportEnabled(), isJsUsedCodeExportEnabled());
+    cssUsedCode += identifyUsedCodeFileOnExportedFile('css', cssOrJsFile, isCssUsedCodeExportEnabled(), isJsUsedCodeExportEnabled());
+    jsUsedCode += identifyUsedCodeFileOnExportedFile('js', cssOrJsFile, isCssUsedCodeExportEnabled(), isJsUsedCodeExportEnabled());
     unusedCode += identifyUnusedCodeFileOnExportedFile(cssOrJsFile, isCssUnusedCodeExportEnabled(), isJsUnusedCodeExportEnabled());
     if (ranges.length !== 0) {
         for (range of ranges) {
@@ -59,10 +61,10 @@ for (cssOrJsFile of coverage) {
             
             // save usedCode
             if (isCssFile(cssOrJsFile) && isCssUsedCodeExportEnabled()) {
-                usedCode += rangeCode
+                cssUsedCode += rangeCode
             }
             if (isJsFile(cssOrJsFile) && isJsUsedCodeExportEnabled()) {
-                usedCode += rangeCode
+                jsUsedCode += rangeCode
             }
 
             // create unusedCode text
@@ -87,16 +89,17 @@ for (cssOrJsFile of coverage) {
     }
 }
 
-//console.log("\n\nusedCode --> " + usedCode)
+//console.log("\n\nusedCode --> " + cssUsedCode)
+//console.log("\n\nusedCode --> " + jsUsedCode)
 //console.log("\n\nunusedcode --> " + unusedCode)
 
 
 // save CSS or JS file (unique file)
 if (isCssUsedCodeExportEnabled()) {
-    fs.writeFileSync(cssSavedFilesFolder + "_CSS" + "_usedCode.css", usedCode);
+    fs.writeFileSync(cssSavedFilesFolder + "_CSS" + "_usedCode.css", cssUsedCode);
 }
 if (isJsUsedCodeExportEnabled()) {
-    fs.writeFileSync(jsSavedFilesFolder + "_JS" + "_usedCode.js", usedCode);
+    fs.writeFileSync(jsSavedFilesFolder + "_JS" + "_usedCode.js", jsUsedCode);
 }
 
 
@@ -146,18 +149,18 @@ function isJsUnusedCodeExportEnabled() {
     return unusedCodeExportOptions.find(o => o == "js") != undefined;
 }
 
-function identifyUsedCodeFileOnExportedFile(cssOrJsFile, isCssUsedCodeExportEnabled, isJsUsedCodeExportEnabled, usedCode) {
+function identifyUsedCodeFileOnExportedFile(isCssOrJsFile, cssOrJsFile, isCssUsedCodeExportEnabled, isJsUsedCodeExportEnabled) {
     let finalUsedCode = '';
-    if (isCssFile(cssOrJsFile) && isCssUsedCodeExportEnabled) {
+    if (isCssOrJsFile == 'css' && isCssFile(cssOrJsFile) && isCssUsedCodeExportEnabled) {
         finalUsedCode += "\n\n /*File: " + cssOrJsFile.url + "*/\n"; // identify the file
     }
-    if (isJsFile(cssOrJsFile) && isJsUsedCodeExportEnabled) {
+    if (isCssOrJsFile == 'js' && isJsFile(cssOrJsFile) && isJsUsedCodeExportEnabled) {
         finalUsedCode += "\n\n //File: " + cssOrJsFile.url + "\n"; // identify the file
     }
     return finalUsedCode;
 }
 
-function identifyUnusedCodeFileOnExportedFile(cssOrJsFile, isCssUnusedCodeExportEnabled, isJsUnusedCodeExportEnabled, unusedCode) {
+function identifyUnusedCodeFileOnExportedFile(cssOrJsFile, isCssUnusedCodeExportEnabled, isJsUnusedCodeExportEnabled) {
     let finalUnusedCode = '';
     if (isCssFile(cssOrJsFile) && isCssUnusedCodeExportEnabled) {
         finalUnusedCode += "\n\n /*File: " + cssOrJsFile.url + "*/\n"; // identify the file
