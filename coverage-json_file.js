@@ -2,8 +2,10 @@
     * Based on version https://marian-caikovski.medium.com/remove-unused-css-a6c4c7f25689
     * Description: Get all USED and UNUSED CSS or JS code
     * OBS:
-        * For CSS files, all results will be inside a single file called "_CSS_usedCode"
-        * For JS files, all results will be in separate files, with the original filename followed by an "_unusedCode"
+        * Used code: For CSS files, all results will be inside a SINGLE file called "_CSS_usedCode"
+        * Used code: For JS files, all results will be inside a SINGLE file called "_JS_usedCode"
+        * Unused code: For CSS files, all results will be in SEPARATE files, with the original filename followed by an "_unusedCode"
+        * Unused code: For JS files, all results will be in SEPARATE files, with the original filename followed by an "_unusedCode"
         * The files will be saved in "cssSavedFilesFolder" or "jsSavedFilesFolder"
     * Instructions:
         * Put your json coverage file inside the folder "fromFileFolder"
@@ -13,8 +15,8 @@
             * What types of files are available to export in the topic "unused code"
         * Configure coverage json file properties
     * TO-DO:
-        * Improve the results of the JS export, so that it can be the same as CSS files, in a single file (today, when the export of all JS files in a single file is enabled, the names of each file do not behave as expected)
         * Add the option to scan only a specific file within the file listing of the json coverage file
+        * Add the option for the user to choose whether to export in single or separate files
 */
 
 const fromFileFolder = "/app/unusedCodeExtractor/fromFileFolder/";
@@ -94,7 +96,7 @@ for (cssOrJsFile of coverage) {
 //console.log("\n\nunusedcode --> " + unusedCode)
 
 
-// save CSS or JS file (unique file)
+// save CSS or JS file (unique file) - WORKS ONLY FOR USED CODE
 if (isCssUsedCodeExportEnabled()) {
     fs.writeFileSync(cssSavedFilesFolder + "_CSS" + "_usedCode.css", cssUsedCode);
 }
