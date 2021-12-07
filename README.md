@@ -35,13 +35,15 @@ This project was developed with the following technologies:
 
 
 ## Remarks & Tips :ok_hand:
-1. For CSS files, all results will be inside a single file called "_CSS_usedCode"
-2. For JS files, all results will be in separate files, with the original filename followed by an "_unusedCode"
+1. Used code: For CSS files, all results will be inside a SINGLE file called "_CSS_usedCode"
+2. Used code: For JS files, all results will be inside a SINGLE file called "_JS_usedCode"
+3. Unused code: For CSS files, all results will be in SEPARATE files, with the original filename followed by an "_unusedCode"
+4. Unused code: For JS files, all results will be in SEPARATE files, with the original filename followed by an "_unusedCode"
 
 
 ### Todo
-1. Improve the results of the JS export, so that it can be the same as CSS files, in a single file (today, when the export of all JS files in a single file is enabled, the names of each file do not behave as expected)
-2. Add the option to scan only a specific file within the file listing of the json coverage file
+1. Add the option to scan only a specific file within the file listing of the json coverage file
+2. Add the option for the user to choose whether to export in single or separate files
 
 ## References
 https://nachovz.github.io/devtools-coverage-css-generator/
