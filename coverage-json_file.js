@@ -58,6 +58,10 @@ for (cssOrJsFile of coverage) {
         for (range of ranges) {
             //console.log(range)
         
+            if (text == null) {
+                console.log("Text of " + fileUrl + " file is null, skipping...")
+                break;
+            }
             let rangeCode = text.substring(range.start, range.end);
             //console.log("\nrangeCode to add/remove --> ", rangeCode)
             
